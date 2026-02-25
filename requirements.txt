@@ -1,0 +1,12 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.2
+pydantic-settings==2.6.1
+PyYAML==6.0.2
+redis==5.2.0
+rq==1.16.2
+httpx==0.27.2
+python-json-logger==2.0.7
+docker==7.1.0
+filelock==3.16.1
+orjson==3.10.12

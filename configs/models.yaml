@@ -1,0 +1,55 @@
+default_backend_image: nvcr.io/nvidia/vllm:25.11-py3
+models:
+  gpt-oss120:
+    source:
+      type: huggingface_repo
+      value: TODO/gpt-oss120-repo
+    backend:
+      image: nvcr.io/nvidia/vllm:25.11-py3
+      port: 8001
+      vllm_args:
+        - --dtype
+        - bfloat16
+        - --max-model-len
+        - "8192"
+    resources:
+      hf_cache_dir: /var/lib/huggingface
+      models_dir: /mnt/models
+    notes: "Update source.value with actual HF repo or local path"
+
+  qwen3-30b:
+    source:
+      type: huggingface_repo
+      value: TODO/Qwen/Qwen3-30B
+    backend:
+      image: nvcr.io/nvidia/vllm:25.11-py3
+      port: 8001
+      vllm_args:
+        - --dtype
+        - bfloat16
+        - --max-model-len
+        - "8192"
+    resources:
+      hf_cache_dir: /var/lib/huggingface
+      models_dir: /mnt/models
+    notes: "Tune tensor parallelism for DGX Spark"
+
+  qwen3-235b-4bit:
+    source:
+      type: huggingface_repo
+      value: TODO/Qwen/Qwen3-235B-Instruct-4bit
+    quantization: awq
+    backend:
+      image: nvcr.io/nvidia/vllm:25.11-py3
+      port: 8001
+      vllm_args:
+        - --quantization
+        - awq
+        - --max-model-len
+        - "4096"
+        - --max-num-seqs
+        - "1"
+    resources:
+      hf_cache_dir: /var/lib/huggingface
+      models_dir: /mnt/models
+    notes: "quantization can be awq/gptq/etc. Keep context lower by default"
