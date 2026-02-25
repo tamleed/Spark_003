@@ -1,0 +1,43 @@
+server:
+  host: 127.0.0.1
+  port: 8000
+
+redis:
+  url: redis://127.0.0.1:6379/0
+
+jobs:
+  queue_name: llm_jobs
+  result_ttl_sec: 86400
+  failure_ttl_sec: 86400
+  max_concurrency: 1
+  default_async: true
+
+timeouts:
+  SWITCH_TIMEOUT_SEC: 900
+  BACKEND_READY_TIMEOUT_SEC: 600
+  INFERENCE_TIMEOUT_SEC: 1800
+  WAIT_TIMEOUT_SEC: 900
+  GRACEFUL_STOP_TIMEOUT_SEC: 20
+
+locks:
+  file_lock_path: /var/lock/llm-switch.lock
+
+paths:
+  hf_home: /var/lib/huggingface
+
+security:
+  require_api_key: true
+  health_without_api_key: true
+  cors_enabled: false
+  max_tokens_upper_bound: 8192
+  request_body_limit_mb: 4
+  rate_limit:
+    enabled: true
+    requests_per_minute: 120
+
+network:
+  public_access_mode: tailscale_funnel
+  bind_localhost_only: true
+
+policies:
+  sync_requires_empty_queue_and_active_model: true
